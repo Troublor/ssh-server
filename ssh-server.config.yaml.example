@@ -1,0 +1,7 @@
+servers:
+    - name: my-server
+      host: 45.67.89.01
+      home: /home/ubuntu
+      username: ubuntu
+      keyFile: ~/.ssh/rsa
+      password: mypassword

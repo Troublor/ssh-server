@@ -134,3 +134,4 @@ gen
 /package-lock.json
 /tmp
 node_modules
+dependencies
