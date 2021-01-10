@@ -28,28 +28,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`ssh-server hello [FILE]`](#ssh-server-hello-file)
 * [`ssh-server help [COMMAND]`](#ssh-server-help-command)
-
-## `ssh-server hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ ssh-server hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ ssh-server hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/Troublor/ssh-server/blob/v1.0.0/src/commands/hello.ts)_
+* [`ssh-server shell [SERVER]`](#ssh-server-shell-server)
 
 ## `ssh-server help [COMMAND]`
 
@@ -67,4 +47,29 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.1/src/commands/help.ts)_
+
+## `ssh-server shell [SERVER]`
+
+open server shell
+
+```
+USAGE
+  $ ssh-server shell [SERVER]
+
+ARGUMENTS
+  SERVER  name of server predefined in config file
+
+OPTIONS
+  -H, --home=home          home path on the server
+  -h, --help               show CLI help
+  -h, --host=host          host of the server
+  -k, --keyFile=keyFile    path to ssh key file to logon server
+  -p, --password=password  password to logon server
+  -u, --username=username  username used to logon server
+
+EXAMPLE
+  $ ssh-server shell
+```
+
+_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.0.0/src/commands/shell.ts)_
 <!-- commandsstop -->
