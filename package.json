@@ -1,6 +1,6 @@
 {
   "name": "ssh-server",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "author": "Aaron @Troublor",
   "bin": "./bin/run",
   "bugs": "https://github.com/Troublor/ssh-server/issues",
@@ -51,10 +51,10 @@
   "repository": "Troublor/ssh-server",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "posttest": "eslint . --ext .ts --config .eslintrc",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "posttest": "yarn eslint . --ext .ts --config .eslintrc.js",
+    "prepack": "rm -rf lib && yarn tsc -b && yarn oclif-dev manifest && yarn oclif-dev readme",
     "test": "echo NO TESTS",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "yarn oclif-dev readme && git add README.md"
   },
   "types": "lib/index.d.ts"
 }

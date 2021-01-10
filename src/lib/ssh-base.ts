@@ -5,8 +5,8 @@ import {OutputArgs, OutputFlags, ParserInput} from "@oclif/parser/lib/parse";
 export default abstract class SshBase extends Command {
     static flags = {
         help: flags.help({char: "h"}),
-        host: flags.string({char: "h", description: "host of the server"}),
-        home: flags.string({char: "H", description: "home path on the server"}),
+        host: flags.string({char: "H", description: "host of the server"}),
+        home: flags.string({description: "home path on the server"}),
         username: flags.string({char: "u", description: "username used to logon server"}),
         password: flags.string({char: "p", description: "password to logon server"}),
         keyFile: flags.string({char: "k", description: "path to ssh key file to logon server"}),
