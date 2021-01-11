@@ -9,6 +9,7 @@ export interface ServerConfig {
     password?: string | undefined,
     keyFile?: string | undefined,
     home?: string | undefined,
+    port?: number | undefined,
 }
 
 function loadServerConfigFile(file: string): ServerConfig[] {

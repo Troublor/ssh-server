@@ -5,3 +5,4 @@ servers:
       username: ubuntu
       keyFile: ~/.ssh/rsa
       password: mypassword
+      port: 22

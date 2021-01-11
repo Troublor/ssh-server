@@ -24,6 +24,7 @@ export default class Shell extends SshBase {
             Shell.logger.info("Connecting server " + config.name);
             r = child_process.spawnSync("ssh", [
                 "-i", config.keyFile as string,
+                "-p", `${config.port ?? 22}`,
                 `${config.username}@${config.host}`,
             ], {
                 stdio: "inherit",
@@ -34,6 +35,7 @@ export default class Shell extends SshBase {
             // auto input password with sshpass
             const cmd = getOrInstallSshpass();
             cmd.append(`-p '${config.password}' ssh ${config.username}@${config.host}`);
+            cmd.append("-p", `${config.port ?? 22}`);
             Shell.logger.info("Connecting server " + config.name);
             r = child_process.spawnSync(cmd.command, cmd.args, {
                 stdio: "inherit",
@@ -43,6 +45,7 @@ export default class Shell extends SshBase {
             // plain ssh
             Shell.logger.info("Connecting server " + config.name);
             const cmd = new Command(`ssh ${config.username}@${config.host}`);
+            cmd.append("-p", `${config.port ?? 22}`);
             r = child_process.spawnSync(cmd.command, cmd.args, {
                 stdio: "inherit",
                 env: process.env,

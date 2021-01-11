@@ -11,6 +11,7 @@ export default abstract class SshBase extends Command {
         username: flags.string({char: "u", description: "username used to logon server"}),
         password: flags.string({char: "p", description: "password to logon server"}),
         keyFile: flags.string({char: "k", description: "path to ssh key file to logon server"}),
+        port: flags.string({char: "P", description: "port of the ssh server"}),
     };
 
     static args = [{name: "server", description: "name of server predefined in config file"}];
@@ -32,6 +33,7 @@ export default abstract class SshBase extends Command {
                 home: flags.home ?? `/home/${flags.username}`,
                 password: flags.password,
                 keyFile: flags.keyFile,
+                port: flags.port ?? 22,
             };
         } else {
             // override
@@ -49,6 +51,9 @@ export default abstract class SshBase extends Command {
             }
             if (flags.keyFile) {
                 config.keyFile = flags.keyFile;
+            }
+            if (flags.port) {
+                config.port = flags.port;
             }
         }
         return config;
