@@ -12,20 +12,14 @@ export interface ServerConfig {
 }
 
 function loadServerConfigFile(file: string): ServerConfig[] {
-    if (!fs.existsSync(configFile)) {
+    if (!fs.existsSync(file)) {
         return [];
     }
     const config = yaml.load(fs.readFileSync(file, {encoding: "utf-8"})) as { servers: ServerConfig[]; };
     return config.servers;
 }
 
-export let configFile = path.join(process.env.HOME as string, "ssh-server.config.yaml");
-
-export function getServerConfig(server: string): ServerConfig | undefined {
-    const configs = loadServerConfigFile(configFile);
+export function getServerConfig(configDir: string, server: string): ServerConfig | undefined {
+    const configs = loadServerConfigFile(path.join(configDir, "config.yaml"));
     return configs.find(value => value.name === server);
-}
-
-export function setConfigFilePath(file: string): void {
-    configFile = file;
 }

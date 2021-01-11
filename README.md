@@ -19,7 +19,7 @@ $ npm install -g ssh-server
 $ ssh-server COMMAND
 running command...
 $ ssh-server (-v|--version|version)
-ssh-server/1.1.2 darwin-x64 node-v14.15.3
+ssh-server/1.1.3 darwin-x64 node-v14.15.3
 $ ssh-server --help [COMMAND]
 USAGE
   $ ssh-server COMMAND
@@ -121,7 +121,7 @@ EXAMPLE
   $ ssh-server shell
 ```
 
-_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.1.2/src/commands/shell.ts)_
+_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/shell.ts)_
 
 ## `ssh-server update [CHANNEL]`
 
