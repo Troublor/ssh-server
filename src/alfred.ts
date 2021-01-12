@@ -2,9 +2,9 @@
 
 // this works as a proxy for the command to facilitate Alfred
 import * as alfy from "alfy";
+import {ScriptFilterJsonFormat} from "alfy";
 import Config from "./lib/config";
 import ConfigCommand from "./commands/config";
-import {ScriptFilterJsonFormat} from "alfy";
 
 function buildShellCandidates(serverName?: string): ScriptFilterJsonFormat[] {
     const candidates: ScriptFilterJsonFormat[] = [];
@@ -114,7 +114,7 @@ function getAlfredCandidates(args: string[]): ScriptFilterJsonFormat[] {
         Config.configDir = (await ConfigCommand.run(["-q"])).configDir;
         try {
             const candidates = getAlfredCandidates(args);
-            alfy.output(candidates);
+            candidates.length > 0 && alfy.output(candidates);
         } catch (e) {
             alfy.error(e);
         }
