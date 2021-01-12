@@ -1,4 +1,4 @@
-import {ServerConfig} from "../../lib/config";
+import {ServerConfig} from "../config";
 import * as path from "path";
 
 export interface ForwardPattern {
@@ -27,5 +27,5 @@ export function parseForwardPattern(config: ServerConfig, payload: string): Forw
 }
 
 export function genForwardSocket(configDir: string, fw: ForwardPattern): string {
-    return path.join(configDir, "socket", `${fw.localAddress}-${fw.localPort}-${fw.remoteAddress}-${fw.remotePort}`);
+    return path.join("socket", `${fw.localAddress}-${fw.localPort}-${fw.remoteAddress}-${fw.remotePort}`);
 }

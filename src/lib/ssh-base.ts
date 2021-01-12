@@ -1,7 +1,7 @@
 import {Command, flags} from "@oclif/command";
-import {getServerConfig, ServerConfig} from "./config";
 import {OutputFlags, ParserInput} from "@oclif/parser/lib/parse";
 import * as path from "path";
+import Config, {ServerConfig} from "./config";
 
 export default abstract class SshBase extends Command {
     static flags = {
@@ -12,12 +12,14 @@ export default abstract class SshBase extends Command {
         password: flags.string({char: "p", description: "password to logon server"}),
         identityFile: flags.string({char: "i", description: "path to ssh identity file to logon server"}),
         port: flags.string({char: "P", description: "port of the ssh server"}),
+
+        quiet: flags.boolean({char: "q", default: false}),
     };
 
     protected parseServerConfig<F extends ParserInput["flags"]>(server: string | undefined, flags: OutputFlags<F>): ServerConfig {
         let config: ServerConfig | undefined = undefined;
         if (server) {
-            config = getServerConfig(this.config.configDir, server);
+            config = Config.getServerConfig(server);
         }
         if (!config) {
             // the server is not defined in config file

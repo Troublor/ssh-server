@@ -1,10 +1,12 @@
 import SshBase from "../../lib/ssh-base";
-import {ContextLogger} from "@troubkit/log";
+import {ContextLogger, Level} from "@troubkit/log";
 import {Command} from "@troubkit/cmd";
 import {getOrInstallSshpass} from "../../lib/sshpass";
 import * as fs from "fs";
 import * as child_process from "child_process";
-import {genForwardSocket, parseForwardPattern} from "./helpers";
+import {genForwardSocket, parseForwardPattern} from "../../lib/port/helpers";
+import * as path from "path";
+import Config from "../../lib/config";
 
 export default class PortClose extends SshBase {
     static description = "close ssh local port forwarding";
@@ -30,13 +32,15 @@ export default class PortClose extends SshBase {
     // set it to false if you need to accept variable arguments
     static strict = false;
 
-    static logger = new ContextLogger("Port");
+    static logger = new ContextLogger("Port", Level.DEBUG);
 
-    async run() {
+    async run(): Promise<void> {
         const {argv, args, flags} = this.parse(PortClose);
         if (argv.length < 2) {
             throw new Error("at least two argument is required");
         }
+
+        PortClose.logger.silent = flags.quiet;
 
         const config = super.parseServerConfig(args.server, flags);
 
@@ -64,7 +68,7 @@ export default class PortClose extends SshBase {
                 const fCmd = cmd.copy();
 
                 const socket = genForwardSocket(this.config.configDir, fw);
-                if (!fs.existsSync(socket)) {
+                if (!fs.existsSync(path.join(Config.configDir, socket))) {
                     // the port is previously opened
                     PortClose.logger.warn("Local port forward is not opened", {
                         local: fw.localStr,
@@ -76,10 +80,11 @@ export default class PortClose extends SshBase {
                 fCmd.append("-O exit");
                 fCmd.append(`${config.username}@${config.host}`);
 
-                console.log("$", fCmd.toString());
+                PortClose.logger.debug(fCmd.toString());
                 const r = child_process.spawnSync(fCmd.command, fCmd.args, {
                     stdio: "inherit",
                     env: process.env,
+                    cwd: Config.configDir,
                 });
                 if (r.error) {
                     if (fs.existsSync(socket)) {

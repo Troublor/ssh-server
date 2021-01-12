@@ -2,9 +2,10 @@ import SshBase from "../../lib/ssh-base";
 import {Command} from "@troubkit/cmd";
 import * as child_process from "child_process";
 import {getOrInstallSshpass} from "../../lib/sshpass";
-import {ContextLogger} from "@troubkit/log";
 import * as fs from "fs";
-import {genForwardSocket, parseForwardPattern} from "./helpers";
+import {genForwardSocket, parseForwardPattern} from "../../lib/port/helpers";
+import {ContextLogger} from "@troubkit/log";
+import Config from "../../lib/config";
 
 export default class PortOpen extends SshBase {
     static description = "open ssh local port forwarding";
@@ -36,6 +37,12 @@ export default class PortOpen extends SshBase {
         const {argv, args, flags} = this.parse(PortOpen);
         if (argv.length < 2) {
             throw new Error("at least two argument is required");
+        }
+
+        if (flags.quiet) {
+            PortOpen.logger.silent = true;
+        } else {
+            PortOpen.logger.silent = false;
         }
 
         const config = super.parseServerConfig(args.server, flags);
@@ -77,11 +84,13 @@ export default class PortOpen extends SshBase {
                 fCmd.append(`-L ${fw.localAddress}:${fw.localPort}:${fw.remoteAddress}:${fw.remotePort}`);
                 fCmd.append(`${config.username}@${config.host}`);
 
-                console.log("$", fCmd.toString());
+                PortOpen.logger.debug(fCmd.toString());
                 const r = child_process.spawnSync(fCmd.command, fCmd.args, {
                     stdio: "inherit",
                     env: process.env,
+                    cwd: Config.configDir,
                 });
+
                 if (r.error) {
                     if (fs.existsSync(socket)) {
                         fs.unlinkSync(socket);

@@ -19,7 +19,7 @@ $ npm install -g ssh-server
 $ ssh-server COMMAND
 running command...
 $ ssh-server (-v|--version|version)
-ssh-server/1.1.3 darwin-x64 node-v14.15.3
+ssh-server/1.2.0 darwin-x64 node-v14.15.3
 $ ssh-server --help [COMMAND]
 USAGE
   $ ssh-server COMMAND
@@ -32,8 +32,8 @@ USAGE
 * [`ssh-server commands`](#ssh-server-commands)
 * [`ssh-server copy [SOURCE] [...] [TARGET]`](#ssh-server-copy-source--target)
 * [`ssh-server help [COMMAND]`](#ssh-server-help-command)
-* [`ssh-server port:close [FILE]`](#ssh-server-portclose-file)
-* [`ssh-server port:open [FILE]`](#ssh-server-portopen-file)
+* [`ssh-server port:close SERVER REMOTEPORT:LOCALPORT`](#ssh-server-portclose-server-remoteportlocalport)
+* [`ssh-server port:open SERVER REMOTEPORT:LOCALPORT`](#ssh-server-portopen-server-remoteportlocalport)
 * [`ssh-server shell [SERVER]`](#ssh-server-shell-server)
 * [`ssh-server update [CHANNEL]`](#ssh-server-update-channel)
 
@@ -109,7 +109,7 @@ EXAMPLE
   $ ssh-server copy -r server:~/workspace ~/
 ```
 
-_See code: [src/commands/copy.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/copy.ts)_
+_See code: [src/commands/copy.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/copy.ts)_
 
 ## `ssh-server help [COMMAND]`
 
@@ -128,37 +128,61 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.1/src/commands/help.ts)_
 
-## `ssh-server port:close [FILE]`
+## `ssh-server port:close SERVER REMOTEPORT:LOCALPORT`
 
-describe the command here
-
-```
-USAGE
-  $ ssh-server port:close [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-```
-
-_See code: [src/commands/port/close.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/port/close.ts)_
-
-## `ssh-server port:open [FILE]`
-
-describe the command here
+close ssh local port forwarding
 
 ```
 USAGE
-  $ ssh-server port:open [FILE]
+  $ ssh-server port:close SERVER REMOTEPORT:LOCALPORT
+
+ARGUMENTS
+  SERVER                name of server predefined in config file
+  REMOTEPORT:LOCALPORT  port forward pattern
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -H, --host=host                  host of the server
+  -P, --port=port                  port of the ssh server
+  -h, --help                       show CLI help
+  -i, --identityFile=identityFile  path to ssh identity file to logon server
+  -p, --password=password          password to logon server
+  -r, --recursive                  recursive copy
+  -u, --username=username          username used to logon server
+  --home=home                      home path on the server
+
+EXAMPLE
+  $ ssh-server port:close remotePort:localPort ...
 ```
 
-_See code: [src/commands/port/open.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/port/open.ts)_
+_See code: [src/commands/port/close.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/port/close.ts)_
+
+## `ssh-server port:open SERVER REMOTEPORT:LOCALPORT`
+
+open ssh local port forwarding
+
+```
+USAGE
+  $ ssh-server port:open SERVER REMOTEPORT:LOCALPORT
+
+ARGUMENTS
+  SERVER                name of server predefined in config file
+  REMOTEPORT:LOCALPORT  port forward pattern
+
+OPTIONS
+  -H, --host=host                  host of the server
+  -P, --port=port                  port of the ssh server
+  -h, --help                       show CLI help
+  -i, --identityFile=identityFile  path to ssh identity file to logon server
+  -p, --password=password          password to logon server
+  -r, --recursive                  recursive copy
+  -u, --username=username          username used to logon server
+  --home=home                      home path on the server
+
+EXAMPLE
+  $ ssh-server port:open localPort:remotePort ...
+```
+
+_See code: [src/commands/port/open.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/port/open.ts)_
 
 ## `ssh-server shell [SERVER]`
 
@@ -188,7 +212,7 @@ EXAMPLE
   $ ssh-server shell [serverName]
 ```
 
-_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/shell.ts)_
+_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/shell.ts)_
 
 ## `ssh-server update [CHANNEL]`
 
