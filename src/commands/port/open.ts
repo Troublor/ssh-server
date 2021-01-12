@@ -71,7 +71,7 @@ export default class PortOpen extends SshBase {
                 const fCmd = cmd.copy();
 
                 fCmd.append("-fN -M");
-                const socket = genForwardSocket(this.config.configDir, fw);
+                const socket = genForwardSocket(fw);
                 if (fs.existsSync(socket)) {
                     // the port is previously opened
                     PortOpen.logger.warn("Local port forward has already been opened", {

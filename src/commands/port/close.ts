@@ -67,7 +67,7 @@ export default class PortClose extends SshBase {
 
                 const fCmd = cmd.copy();
 
-                const socket = genForwardSocket(this.config.configDir, fw);
+                const socket = genForwardSocket(fw);
                 if (!fs.existsSync(path.join(Config.configDir, socket))) {
                     // the port is previously opened
                     PortClose.logger.warn("Local port forward is not opened", {

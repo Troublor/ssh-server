@@ -5,6 +5,7 @@ import * as alfy from "alfy";
 import {ScriptFilterJsonFormat} from "alfy";
 import Config from "./lib/config";
 import ConfigCommand from "./commands/config";
+import {getCurrentlyOpeningForwards} from "./lib/port/helpers";
 
 function buildShellCandidates(serverName?: string): ScriptFilterJsonFormat[] {
     const candidates: ScriptFilterJsonFormat[] = [];
@@ -14,6 +15,7 @@ function buildShellCandidates(serverName?: string): ScriptFilterJsonFormat[] {
             candidates.push({
                 title: `open shell on remote server '${serverConfig.name}'`,
                 subtitle: `ssh-server shell ${serverConfig.name}`,
+                arg: `shell ${serverConfig.name}`,
                 autocomplete: `shell ${serverConfig.name}`,
             });
         }
@@ -31,7 +33,7 @@ function buildCopyCandidates(): ScriptFilterJsonFormat[] {
     return candidates;
 }
 
-function buildPortCandidates(action?: "open" | "close", serverName?: string): ScriptFilterJsonFormat[] {
+function buildPortCandidates(action?: "open" | "close" | "list", serverName?: string): ScriptFilterJsonFormat[] {
     const candidates: ScriptFilterJsonFormat[] = [];
     const servers = Config.loadServerConfigFile();
     if (!action) {
@@ -46,13 +48,34 @@ function buildPortCandidates(action?: "open" | "close", serverName?: string): Sc
                 subtitle: "Usage: port:close serverName remotePort:localPort",
                 autocomplete: "port:close",
             },
+            {
+                title: "list opening local port forwards from remote server",
+                subtitle: "Usage: port:list",
+                arg: "port:list",
+                autocomplete: "port:list",
+            },
         );
+    } else if (action === "list") {
+        getCurrentlyOpeningForwards().forEach(fw => {
+            candidates.push({
+                title: `${fw.remoteStr} -> ${fw.localStr}`,
+                subtitle: "close it",
+                arg: `port:close ${servers.find(s => s.host === fw.remoteAddress)?.name} ${fw.localPort}:${fw.remotePort}`,
+                autocomplete: `port:close ${servers.find(s => s.host === fw.remoteAddress)?.name} ${fw.localPort}:${fw.remotePort}`,
+            });
+        });
+        if (candidates.length === 0) {
+            candidates.push({
+                title: "No open port forwarding",
+            });
+        }
     } else
         for (const serverConfig of servers) {
             if (!serverName || serverConfig.name.startsWith(serverName)) {
                 candidates.push({
                     title: `${action} local port forwarding from remote server '${serverConfig.name}'`,
                     subtitle: `ssh-server port:${action} ${serverConfig.name}`,
+                    arg: `port:${action} ${serverConfig.name}`,
                     autocomplete: `port:${action} ${serverConfig.name}`,
                 });
             }
@@ -88,6 +111,12 @@ function getAlfredCandidates(args: string[]): ScriptFilterJsonFormat[] {
                 subtitle: "Usage: port:close serverName remotePort:localPort",
                 autocomplete: "port:close",
             },
+            {
+                title: "list opening local port forwards from remote server",
+                subtitle: "Usage: port:list",
+                arg: "port:list",
+                autocomplete: "port:list",
+            },
         );
     } else if ("shell".startsWith(cmd)) {
         candidates.push(...buildShellCandidates(args[1]));
@@ -99,6 +128,8 @@ function getAlfredCandidates(args: string[]): ScriptFilterJsonFormat[] {
         candidates.push(...buildPortCandidates("open", args[1]));
     } else if ("port:close".startsWith(cmd)) {
         candidates.push(...buildPortCandidates("close", args[1]));
+    } else if ("port:list".startsWith(cmd)) {
+        candidates.push(...buildPortCandidates("list", args[1]));
     } else {
         throw new Error(`ssh-server command '${cmd}' is not supported`);
     }

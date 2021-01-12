@@ -15,11 +15,11 @@ ssh-server
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g ssh-server
+$ npm install -g @troubkit/ssh-server
 $ ssh-server COMMAND
 running command...
 $ ssh-server (-v|--version|version)
-ssh-server/1.2.0 darwin-x64 node-v14.15.3
+@troubkit/ssh-server/1.2.0 darwin-x64 node-v14.15.3
 $ ssh-server --help [COMMAND]
 USAGE
   $ ssh-server COMMAND
@@ -98,6 +98,7 @@ OPTIONS
   -h, --help                       show CLI help
   -i, --identityFile=identityFile  path to ssh identity file to logon server
   -p, --password=password          password to logon server
+  -q, --quiet
   -r, --recursive                  recursive copy
   -u, --username=username          username used to logon server
   --home=home                      home path on the server
@@ -146,6 +147,7 @@ OPTIONS
   -h, --help                       show CLI help
   -i, --identityFile=identityFile  path to ssh identity file to logon server
   -p, --password=password          password to logon server
+  -q, --quiet
   -r, --recursive                  recursive copy
   -u, --username=username          username used to logon server
   --home=home                      home path on the server
@@ -174,6 +176,7 @@ OPTIONS
   -h, --help                       show CLI help
   -i, --identityFile=identityFile  path to ssh identity file to logon server
   -p, --password=password          password to logon server
+  -q, --quiet
   -r, --recursive                  recursive copy
   -u, --username=username          username used to logon server
   --home=home                      home path on the server
@@ -201,6 +204,7 @@ OPTIONS
   -h, --help                       show CLI help
   -i, --identityFile=identityFile  path to ssh identity file to logon server
   -p, --password=password          password to logon server
+  -q, --quiet
   -r, --recursive                  recursive copy
   -u, --username=username          username used to logon server
   --home=home                      home path on the server
