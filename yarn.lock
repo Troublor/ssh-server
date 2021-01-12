@@ -356,6 +356,7 @@ __metadata:
     tslib: ^1
     typescript: ^4.1.3
   bin:
+    ss: bin/run
     ssh-server: bin/run
   languageName: unknown
   linkType: soft

@@ -19,7 +19,7 @@ $ npm install -g @troubkit/ssh-server
 $ ssh-server COMMAND
 running command...
 $ ssh-server (-v|--version|version)
-@troubkit/ssh-server/1.2.0 darwin-x64 node-v14.15.3
+@troubkit/ssh-server/1.3.0 darwin-x64 node-v14.15.3
 $ ssh-server --help [COMMAND]
 USAGE
   $ ssh-server COMMAND
@@ -33,6 +33,7 @@ USAGE
 * [`ssh-server copy [SOURCE] [...] [TARGET]`](#ssh-server-copy-source--target)
 * [`ssh-server help [COMMAND]`](#ssh-server-help-command)
 * [`ssh-server port:close SERVER REMOTEPORT:LOCALPORT`](#ssh-server-portclose-server-remoteportlocalport)
+* [`ssh-server port:list SERVER REMOTEPORT:LOCALPORT`](#ssh-server-portlist-server-remoteportlocalport)
 * [`ssh-server port:open SERVER REMOTEPORT:LOCALPORT`](#ssh-server-portopen-server-remoteportlocalport)
 * [`ssh-server shell [SERVER]`](#ssh-server-shell-server)
 * [`ssh-server update [CHANNEL]`](#ssh-server-update-channel)
@@ -110,7 +111,7 @@ EXAMPLE
   $ ssh-server copy -r server:~/workspace ~/
 ```
 
-_See code: [src/commands/copy.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/copy.ts)_
+_See code: [src/commands/copy.ts](https://github.com/Troublor/ssh-server/blob/v1.3.0/src/commands/copy.ts)_
 
 ## `ssh-server help [COMMAND]`
 
@@ -156,7 +157,36 @@ EXAMPLE
   $ ssh-server port:close remotePort:localPort ...
 ```
 
-_See code: [src/commands/port/close.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/port/close.ts)_
+_See code: [src/commands/port/close.ts](https://github.com/Troublor/ssh-server/blob/v1.3.0/src/commands/port/close.ts)_
+
+## `ssh-server port:list SERVER REMOTEPORT:LOCALPORT`
+
+close ssh local port forwarding
+
+```
+USAGE
+  $ ssh-server port:list SERVER REMOTEPORT:LOCALPORT
+
+ARGUMENTS
+  SERVER                name of server predefined in config file
+  REMOTEPORT:LOCALPORT  port forward pattern
+
+OPTIONS
+  -H, --host=host                  host of the server
+  -P, --port=port                  port of the ssh server
+  -h, --help                       show CLI help
+  -i, --identityFile=identityFile  path to ssh identity file to logon server
+  -p, --password=password          password to logon server
+  -q, --quiet
+  -r, --recursive                  recursive copy
+  -u, --username=username          username used to logon server
+  --home=home                      home path on the server
+
+EXAMPLE
+  $ ssh-server port:close remotePort:localPort ...
+```
+
+_See code: [src/commands/port/list.ts](https://github.com/Troublor/ssh-server/blob/v1.3.0/src/commands/port/list.ts)_
 
 ## `ssh-server port:open SERVER REMOTEPORT:LOCALPORT`
 
@@ -185,7 +215,7 @@ EXAMPLE
   $ ssh-server port:open localPort:remotePort ...
 ```
 
-_See code: [src/commands/port/open.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/port/open.ts)_
+_See code: [src/commands/port/open.ts](https://github.com/Troublor/ssh-server/blob/v1.3.0/src/commands/port/open.ts)_
 
 ## `ssh-server shell [SERVER]`
 
@@ -216,7 +246,7 @@ EXAMPLE
   $ ssh-server shell [serverName]
 ```
 
-_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.2.0/src/commands/shell.ts)_
+_See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.3.0/src/commands/shell.ts)_
 
 ## `ssh-server update [CHANNEL]`
 

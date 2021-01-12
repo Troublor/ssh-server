@@ -1,12 +1,6 @@
 import SshBase from "../../lib/ssh-base";
 import {ContextLogger, Level} from "@troubkit/log";
-import {getOrInstallSshpass} from "../../lib/sshpass";
-import {genForwardSocket, getCurrentlyOpeningForwards, parseForwardPattern} from "../../lib/port/helpers";
-import * as fs from "fs";
-import * as path from "path";
-import Config from "../../lib/config";
-import * as child_process from "child_process";
-import {Command} from "@troubkit/cmd";
+import {getCurrentlyOpeningForwards} from "../../lib/port/helpers";
 
 export default class PortList extends SshBase {
     static description = "close ssh local port forwarding";
