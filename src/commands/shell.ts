@@ -5,25 +5,26 @@ import {Command} from "@troubkit/cmd";
 import {ContextLogger} from "@troubkit/log";
 
 export default class Shell extends SshBase {
+    static aliases = ["sh"];
     static description = "open server shell";
     static examples = [
-        "$ ssh-server shell",
+        "$ ssh-server shell [serverName]",
     ];
 
     static flags = SshBase.flags;
-    static args = SshBase.args;
+    static args = [{name: "server", description: "name of server predefined in config file"}];
 
     static logger = new ContextLogger("Shell");
 
     async run(): Promise<void> {
         const {args, flags} = this.parse(Shell);
 
-        const config = super.parseServerConfig(args as { [server: string]: string }[], flags);
+        const config = super.parseServerConfig(args.server, flags);
         let r;
-        if (config.keyFile) {
+        if (config.identityFile) {
             Shell.logger.info("Connecting server " + config.name);
             r = child_process.spawnSync("ssh", [
-                "-i", config.keyFile as string,
+                "-i", config.identityFile as string,
                 "-p", `${config.port ?? 22}`,
                 `${config.username}@${config.host}`,
             ], {

@@ -7,7 +7,7 @@ export interface ServerConfig {
     host: string,
     username: string,
     password?: string | undefined,
-    keyFile?: string | undefined,
+    identityFile?: string | undefined,
     home?: string | undefined,
     port?: number | undefined,
 }

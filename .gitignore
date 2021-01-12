@@ -135,3 +135,4 @@ gen
 /tmp
 node_modules
 dependencies
+/oclif.manifest.json

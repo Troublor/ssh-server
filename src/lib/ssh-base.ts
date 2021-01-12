@@ -1,6 +1,6 @@
 import {Command, flags} from "@oclif/command";
 import {getServerConfig, ServerConfig} from "./config";
-import {OutputArgs, OutputFlags, ParserInput} from "@oclif/parser/lib/parse";
+import {OutputFlags, ParserInput} from "@oclif/parser/lib/parse";
 import * as path from "path";
 
 export default abstract class SshBase extends Command {
@@ -10,16 +10,14 @@ export default abstract class SshBase extends Command {
         home: flags.string({description: "home path on the server"}),
         username: flags.string({char: "u", description: "username used to logon server"}),
         password: flags.string({char: "p", description: "password to logon server"}),
-        keyFile: flags.string({char: "k", description: "path to ssh key file to logon server"}),
+        identityFile: flags.string({char: "i", description: "path to ssh identity file to logon server"}),
         port: flags.string({char: "P", description: "port of the ssh server"}),
     };
 
-    static args = [{name: "server", description: "name of server predefined in config file"}];
-
-    protected parseServerConfig<A extends ParserInput["args"], F extends ParserInput["flags"]>(args: OutputArgs<A>, flags: OutputFlags<F>): ServerConfig {
+    protected parseServerConfig<F extends ParserInput["flags"]>(server: string | undefined, flags: OutputFlags<F>): ServerConfig {
         let config: ServerConfig | undefined = undefined;
-        if ((args as { server: string }).server) {
-            config = getServerConfig(this.config.configDir, (args as { server: string }).server);
+        if (server) {
+            config = getServerConfig(this.config.configDir, server);
         }
         if (!config) {
             // the server is not defined in config file
@@ -32,7 +30,7 @@ export default abstract class SshBase extends Command {
                 username: flags.username,
                 home: flags.home ?? `/home/${flags.username}`,
                 password: flags.password,
-                keyFile: flags.keyFile,
+                identityFile: flags.identityFile,
                 port: flags.port ?? 22,
             };
         } else {
@@ -49,8 +47,8 @@ export default abstract class SshBase extends Command {
             if (flags.password) {
                 config.password = flags.password;
             }
-            if (flags.keyFile) {
-                config.keyFile = flags.keyFile;
+            if (flags.identityFile) {
+                config.identityFile = flags.identityFile;
             }
             if (flags.port) {
                 config.port = flags.port;

@@ -30,7 +30,10 @@ USAGE
 <!-- commands -->
 * [`ssh-server autocomplete [SHELL]`](#ssh-server-autocomplete-shell)
 * [`ssh-server commands`](#ssh-server-commands)
+* [`ssh-server copy [SOURCE] [...] [TARGET]`](#ssh-server-copy-source--target)
 * [`ssh-server help [COMMAND]`](#ssh-server-help-command)
+* [`ssh-server port:close [FILE]`](#ssh-server-portclose-file)
+* [`ssh-server port:open [FILE]`](#ssh-server-portopen-file)
 * [`ssh-server shell [SERVER]`](#ssh-server-shell-server)
 * [`ssh-server update [CHANNEL]`](#ssh-server-update-channel)
 
@@ -81,6 +84,33 @@ OPTIONS
 
 _See code: [@oclif/plugin-commands](https://github.com/oclif/plugin-commands/blob/v1.3.0/src/commands/commands.ts)_
 
+## `ssh-server copy [SOURCE] [...] [TARGET]`
+
+open server shell
+
+```
+USAGE
+  $ ssh-server copy [SOURCE] [...] [TARGET]
+
+OPTIONS
+  -H, --host=host                  host of the server
+  -P, --port=port                  port of the ssh server
+  -h, --help                       show CLI help
+  -i, --identityFile=identityFile  path to ssh identity file to logon server
+  -p, --password=password          password to logon server
+  -r, --recursive                  recursive copy
+  -u, --username=username          username used to logon server
+  --home=home                      home path on the server
+
+ALIASES
+  $ ssh-server cp
+
+EXAMPLE
+  $ ssh-server copy -r server:~/workspace ~/
+```
+
+_See code: [src/commands/copy.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/copy.ts)_
+
 ## `ssh-server help [COMMAND]`
 
 display help for ssh-server
@@ -98,6 +128,38 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.1/src/commands/help.ts)_
 
+## `ssh-server port:close [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ ssh-server port:close [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/port/close.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/port/close.ts)_
+
+## `ssh-server port:open [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ ssh-server port:open [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/port/open.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/port/open.ts)_
+
 ## `ssh-server shell [SERVER]`
 
 open server shell
@@ -110,15 +172,20 @@ ARGUMENTS
   SERVER  name of server predefined in config file
 
 OPTIONS
-  -H, --host=host          host of the server
-  -h, --help               show CLI help
-  -k, --keyFile=keyFile    path to ssh key file to logon server
-  -p, --password=password  password to logon server
-  -u, --username=username  username used to logon server
-  --home=home              home path on the server
+  -H, --host=host                  host of the server
+  -P, --port=port                  port of the ssh server
+  -h, --help                       show CLI help
+  -i, --identityFile=identityFile  path to ssh identity file to logon server
+  -p, --password=password          password to logon server
+  -r, --recursive                  recursive copy
+  -u, --username=username          username used to logon server
+  --home=home                      home path on the server
+
+ALIASES
+  $ ssh-server sh
 
 EXAMPLE
-  $ ssh-server shell
+  $ ssh-server shell [serverName]
 ```
 
 _See code: [src/commands/shell.ts](https://github.com/Troublor/ssh-server/blob/v1.1.3/src/commands/shell.ts)_

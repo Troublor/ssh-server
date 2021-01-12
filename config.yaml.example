@@ -3,6 +3,6 @@ servers:
       host: 45.67.89.01
       home: /home/ubuntu
       username: ubuntu
-      keyFile: ~/.ssh/rsa
+      identityFile: ~/.ssh/rsa
       password: mypassword
       port: 22

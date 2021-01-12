@@ -50,6 +50,9 @@
     "oclif": {
         "commands": "./lib/commands",
         "bin": "ssh-server",
+        "hooks": {
+            "init": "./lib/hooks/init"
+        },
         "plugins": [
             "@oclif/plugin-help",
             "@oclif/plugin-not-found",
