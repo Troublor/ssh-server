@@ -21,15 +21,42 @@ function buildShellCandidates(serverName?: string): ScriptFilterJsonFormat[] {
     return candidates;
 }
 
-function buildCopyCandidates(server?: string): ScriptFilterJsonFormat[] {
+function buildCopyCandidates(): ScriptFilterJsonFormat[] {
     const candidates: ScriptFilterJsonFormat[] = [];
-
+    candidates.push({
+        title: "copy to/from remote server",
+        subtitle: "ssh-server copy [serverName:]path/to/source [serverName:]path/to/destination",
+        autocomplete: "copy ",
+    });
     return candidates;
 }
 
-function buildPortCandidates(action?: "open" | "close", server?: string): ScriptFilterJsonFormat[] {
+function buildPortCandidates(action?: "open" | "close", serverName?: string): ScriptFilterJsonFormat[] {
     const candidates: ScriptFilterJsonFormat[] = [];
-
+    const servers = Config.loadServerConfigFile();
+    if (!action) {
+        candidates.push(
+            {
+                title: "open local port forwarding from remote server",
+                subtitle: "Usage: port:open serverName remotePort:localPort",
+                autocomplete: "port:open",
+            },
+            {
+                title: "close local port forwarding from remote server",
+                subtitle: "Usage: port:close serverName remotePort:localPort",
+                autocomplete: "port:close",
+            },
+        );
+    } else
+        for (const serverConfig of servers) {
+            if (!serverName || serverConfig.name.startsWith(serverName)) {
+                candidates.push({
+                    title: `${action} local port forwarding from remote server '${serverConfig.name}'`,
+                    subtitle: `ssh-server port:${action} ${serverConfig.name}`,
+                    autocomplete: `port:${action} ${serverConfig.name}`,
+                });
+            }
+        }
     return candidates;
 }
 
@@ -52,12 +79,12 @@ function getAlfredCandidates(args: string[]): ScriptFilterJsonFormat[] {
                 autocomplete: "copy",
             },
             {
-                title: "open local port forwarding",
+                title: "open local port forwarding from remote server",
                 subtitle: "Usage: port:open serverName remotePort:localPort",
                 autocomplete: "port:open",
             },
             {
-                title: "close local port forwarding",
+                title: "close local port forwarding from remote server",
                 subtitle: "Usage: port:close serverName remotePort:localPort",
                 autocomplete: "port:close",
             },
@@ -65,7 +92,7 @@ function getAlfredCandidates(args: string[]): ScriptFilterJsonFormat[] {
     } else if ("shell".startsWith(cmd)) {
         candidates.push(...buildShellCandidates(args[1]));
     } else if ("copy".startsWith(cmd) || "cp".startsWith(cmd)) {
-        candidates.push(...buildCopyCandidates(args[1]));
+        candidates.push(...buildCopyCandidates());
     } else if ("port".startsWith(cmd)) {
         candidates.push(...buildPortCandidates());
     } else if ("port:open".startsWith(cmd)) {
